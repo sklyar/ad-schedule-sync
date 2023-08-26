@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/sklyar/go-transact"
+	"github.com/sklyar/go-transact/adapters/transactstd"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
@@ -16,8 +17,6 @@ import (
 	bookingrepository "github.com/sklyar/ad-schedule-sync/backend/internal/repository/booking"
 	"github.com/sklyar/ad-schedule-sync/backend/internal/server/http"
 	bookingservice "github.com/sklyar/ad-schedule-sync/backend/internal/service/booking"
-
-	"github.com/sklyar/go-transact/adapters/txstd"
 )
 
 const (
@@ -39,7 +38,7 @@ func main() {
 		panic(err)
 	}
 
-	txManager, db, err := transact.NewManager(txstd.Wrap(sqlDB))
+	txManager, db, err := transact.NewManager(transactstd.Wrap(sqlDB))
 	if err != nil {
 		panic(err)
 	}
