@@ -20,25 +20,22 @@ The Google Sheet that the script parses should have the following format:
 The script will output an array of objects, where each object represents an affected row in the Google Sheet. The objects will have the following format:
 
 ```json
-[
-  {
-    "date": "yyyy-mm-ddT00:00:00.000Z",
-    "bookings": [
-      {
-        "clientName": "John Doe",
-        "timeSlot": "10:00"
-      },
-      {
-        "clientName": "Jane Smith",
-        "timeSlot": "12:00"
-      },
-      ...
-    ]
-  },
-  ...
-]
+{
+  "date": "yyyy-mm-dd",
+  "bookings": [
+    {
+      "client_name": "John Doe",
+      "time": "10:00+00:00"
+    },
+    {
+      "client_name": "Jane Smith",
+      "time": "12:00+00:00"
+    },
+    ...
+  ]
+}
 ```
 
 - The `date` property represents the date of the affected row (in the format yyyy-mm-ddT00:00:00.000Z).
 - The `bookings` property is an array of objects that contain the client names and time slots of the affected bookings.
-- Each object inside the `bookings` array has a `clientName` property and a `timeSlot` property.
+- Each object inside the `bookings` array has a `client_name` property and a `time` property.
