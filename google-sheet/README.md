@@ -21,15 +21,15 @@ The script will output an array of objects, where each object represents an affe
 
 ```json
 {
-  "date": "yyyy-mm-dd",
+  "date": "yyyy-mm-dd+00:00",
   "bookings": [
     {
       "client_name": "John Doe",
-      "time": "10:00+00:00"
+      "time": "10:00"
     },
     {
       "client_name": "Jane Smith",
-      "time": "12:00+00:00"
+      "time": "12:00"
     },
     ...
   ]
