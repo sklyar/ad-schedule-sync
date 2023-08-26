@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:15.3
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ad_sync
+    ports:
+      - "5432:5432"
+
+  migrate:
+    image: migrate/migrate
+    depends_on:
+      - db
+    volumes:
+      - ./scripts/migrations:/migrations
+    command: ["-path=/migrations", "-database=postgresql://postgres:postgres@db:5432/ad_sync?sslmode=disable", "up"]
+
+volumes:
+    pg-data:
