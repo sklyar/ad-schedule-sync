@@ -3,10 +3,11 @@ package booking
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/sklyar/ad-schedule-sync/backend/internal/entity"
 	"github.com/sklyar/ad-schedule-sync/backend/internal/service"
 	"github.com/sklyar/go-transact"
-	"time"
 )
 
 type repository interface {
@@ -27,11 +28,12 @@ type Service struct {
 	r repository
 
 	txManager *transact.Manager
+	timeNow   func() time.Time
 }
 
 // NewService creates a new booking service.
 func NewService(txManager *transact.Manager, r repository) *Service {
-	return &Service{r: r, txManager: txManager}
+	return &Service{r: r, txManager: txManager, timeNow: time.Now}
 }
 
 func (s *Service) SyncBookings(ctx context.Context, data service.SyncBookingsData) error {
@@ -79,9 +81,12 @@ func (s *Service) processNewBookings(ctx context.Context, bookings bookingsMap, 
 			continue
 		}
 
+		now := s.timeNow()
 		booking := entity.Booking{
 			ClientName: newBooking.ClientName,
 			BookingAt:  newBooking.BookingAt,
+			CreatedAt:  now,
+			UpdatedAt:  now,
 		}
 		if err := s.r.CreateBooking(ctx, booking); err != nil {
 			return fmt.Errorf("failed to create booking: %w", err)
